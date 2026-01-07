@@ -50,7 +50,7 @@ const GoogleAd = ({ slot, className, style }) => {
       <ins
         className="adsbygoogle"
         style={{ display: "block", width: "100%", height: "100%" }}
-        data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" // *** BURAYA KENDİ PUB ID'NİZİ GİRİN ***
+        data-ad-client="ca-pub-1006723326997990" // *** BURAYA KENDİ PUB ID'NİZİ GİRİN ***
         data-ad-slot={slot} // *** REKLAM BİRİMİ ID'Sİ (SLOT) ***
         data-ad-format="auto"
         data-full-width-responsive="true"

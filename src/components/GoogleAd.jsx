@@ -16,7 +16,7 @@ const GoogleAd = ({ slot, style, className }) => {
       <ins
         className="adsbygoogle"
         style={{ display: "block", ...style }}
-        data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" // BURAYA KENDİ YAYINCI ID'NİZİ GİRİN (Örn: ca-pub-123456789)
+        data-ad-client="ca-pub-1006723326997990" // BURAYA KENDİ YAYINCI ID'NİZİ GİRİN (Örn: ca-pub-123456789)
         data-ad-slot={slot} // Her reklam alanı için farklı bir ID gelecek
         data-ad-format="auto"
         data-full-width-responsive="true"
