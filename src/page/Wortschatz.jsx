@@ -1,8 +1,8 @@
-// Home.jsx
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 
-// --- B ve C Serisi Importlarınız (Dosya yollarınızın doğru olduğundan emin olun) ---
+// --- B Serisi Importları ---
+// Not: B1 için Kommunikation alias'ı kaldırıldı, doğrudan B1 olarak eşleştirildi.
 import B1 from "../components/B/B1.jsx";
 import B2 from "../components/B/B2.jsx";
 import B3 from "../components/B/B3.jsx";
@@ -17,6 +17,7 @@ import B11 from "../components/B/B11.jsx";
 import B12 from "../components/B/B12.jsx";
 import B13 from "../components/B/B13.jsx";
 
+// --- C Serisi Importları ---
 import C1 from "../components/C/C1.jsx";
 import C2 from "../components/C/C2.jsx";
 import C3 from "../components/C/C3.jsx";
@@ -35,7 +36,6 @@ import C13 from "../components/C/C13.jsx";
 const GoogleAd = ({ slot, className, style }) => {
   useEffect(() => {
     try {
-      // AdSense scripti yüklendiyse reklamı tetikle
       if (window.adsbygoogle) {
         window.adsbygoogle.push({});
       }
@@ -46,12 +46,11 @@ const GoogleAd = ({ slot, className, style }) => {
 
   return (
     <div className={className} style={style}>
-      {/* Test aşamasında yerini görmek için gri arkaplan ekledik */}
       <ins
         className="adsbygoogle"
         style={{ display: "block", width: "100%", height: "100%" }}
-        data-ad-client="ca-pub-1006723326997990" // *** BURAYA KENDİ PUB ID'NİZİ GİRİN ***
-        data-ad-slot={slot} // *** REKLAM BİRİMİ ID'Sİ (SLOT) ***
+        data-ad-client="ca-pub-1006723326997990"
+        data-ad-slot={slot}
         data-ad-format="auto"
         data-full-width-responsive="true"
       ></ins>
@@ -61,7 +60,7 @@ const GoogleAd = ({ slot, className, style }) => {
 
 // --- KOMPONENT HARİTASI ---
 const components = {
-  B1,
+  B1, // Anahtarın import edilen dosya mantığıyla uyuşması önemli (B1 aranacak)
   B2,
   B3,
   B4,
@@ -96,7 +95,7 @@ export default function Home() {
   const [selectedButton, setSelectedButton] = useState(null);
   const [selectedComponent, setSelectedComponent] = useState(null);
 
-  // 1. Google Ads Scriptini Otomatik Yükle (index.html'e dokunmamak için)
+  // 1. Google Ads Scriptini Otomatik Yükle
   useEffect(() => {
     const scriptId = "google-ads-script";
     if (!document.getElementById(scriptId)) {
@@ -104,7 +103,7 @@ export default function Home() {
       script.id = scriptId;
       script.async = true;
       script.src =
-        "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"; // *** ID'NİZİ GİRİN ***
+        "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX";
       script.crossOrigin = "anonymous";
       document.head.appendChild(script);
     }
@@ -168,24 +167,28 @@ export default function Home() {
     </div>
   );
 
+  // --- BURASI GÜNCELLENDİ: TEMA İSİMLENDİRMESİ ---
   const renderSubButtons = () => {
     const buttons = [];
-    const prefix = selectedButton;
+    const prefix = selectedButton; // B veya C
     for (let i = 1; i <= 13; i++) {
-      const name = `${prefix}${i}`;
+      const componentID = `${prefix}${i}`; // Örneğin: "B1", "C5" (Haritadan bulmak için)
+      const displayName = `Tema ${i}`; // Örneğin: "Tema 1", "Tema 5" (Ekranda yazan)
+
       buttons.push(
         <button
-          key={name}
-          onClick={() => handleSubButtonClick(name)}
+          key={componentID}
+          onClick={() => handleSubButtonClick(componentID)}
           className={`premium-small-btn ${
             prefix === "B" ? "btn-gradient-purple" : "btn-gradient-orange"
           }`}
         >
           <span className="btn-content-small">
             <span className="text-lg">📚</span>
-            <span className="font-semibold">{name}</span>
+            {/* Tema isimlendirmesi burada */}
+            <span className="font-semibold">{displayName}</span>
           </span>
-        </button>
+        </button>,
       );
     }
     return buttons;
@@ -213,10 +216,9 @@ export default function Home() {
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4 lg:p-6 flex flex-col lg:flex-row justify-center gap-4">
-        {/* --- SOL REKLAM (Daraltıldı: w-1/6) --- */}
+        {/* --- SOL REKLAM --- */}
         <aside className="hidden lg:block w-1/6 min-w-[160px] relative">
           <div className="sticky top-4 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-lg min-h-[600px] flex flex-col items-center justify-center">
-            {/* SOL SLOT ID BURAYA */}
             <GoogleAd
               slot="1234567890"
               style={{ width: "160px", height: "600px" }}
@@ -225,7 +227,7 @@ export default function Home() {
           </div>
         </aside>
 
-        {/* --- ORTA ANA İÇERİK (Genişletildi: flex-1) --- */}
+        {/* --- ANA İÇERİK --- */}
         <main className="flex-1 w-full max-w-5xl bg-slate-800/40 backdrop-blur-sm border border-slate-700 rounded-xl shadow-2xl p-4 lg:p-8 min-h-[80vh]">
           <h1 className="text-2xl md:text-4xl font-extrabold bg-gradient-to-r from-blue-400 via-purple-400 to-green-400 bg-clip-text text-transparent mb-8 text-center drop-shadow-lg">
             Dinamik B ve C Serisi Öğrenim Platformu
@@ -265,7 +267,7 @@ export default function Home() {
               <div className="mt-2">
                 <div className="bg-gradient-to-r from-blue-500/80 to-purple-500/80 backdrop-blur-sm text-white px-5 py-3 rounded-lg mb-6 inline-flex items-center gap-2 font-bold text-sm shadow-lg border border-blue-400/30">
                   <span className="text-xl">📖</span>
-                  <span>Ders: {selectedComponent}</span>
+                  <span>{selectedComponent} - Ders İçeriği</span>
                 </div>
                 <div className="bg-slate-700/20 backdrop-blur-sm border border-slate-600/30 rounded-xl p-6">
                   {renderComponent()}
@@ -275,10 +277,9 @@ export default function Home() {
           </div>
         </main>
 
-        {/* --- SAĞ REKLAM (Daraltıldı: w-1/6) --- */}
+        {/* --- SAĞ REKLAM --- */}
         <aside className="hidden lg:block w-1/6 min-w-[160px] relative">
           <div className="sticky top-4 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-lg min-h-[600px] flex flex-col items-center justify-center">
-            {/* SAĞ SLOT ID BURAYA */}
             <GoogleAd
               slot="0987654321"
               style={{ width: "160px", height: "600px" }}
@@ -288,7 +289,6 @@ export default function Home() {
         </aside>
       </div>
 
-      {/* Footer */}
       <footer className="max-w-4xl mx-auto mt-8 mb-4 p-6 text-center text-slate-400 text-sm bg-slate-800/30 backdrop-blur-sm rounded-lg border border-slate-700/50">
         <p>
           &copy; {new Date().getFullYear()} Almanca Öğrenme Merkezi. Tüm hakları
@@ -296,10 +296,10 @@ export default function Home() {
         </p>
       </footer>
 
-      {/* Premium Buton Stilleri */}
+      {/* CSS Stilleri (Değişmedi, aynı kalabilir) */}
       <style>
         {`
-          /* Ana büyük butonlar */
+          /* Mevcut CSS stilleriniz buraya... */
           .premium-btn {
             position: relative;
             font-weight: 700;
@@ -311,7 +311,6 @@ export default function Home() {
             border: 1px solid rgba(255,255,255,0.15);
             min-width: 200px;
           }
-          
           .premium-btn::before {
             content: '';
             position: absolute;
@@ -322,21 +321,16 @@ export default function Home() {
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
             transition: left 0.6s;
           }
-          
           .premium-btn:hover::before {
             left: 100%;
           }
-          
           .premium-btn:hover {
             transform: translateY(-6px) scale(1.03);
             box-shadow: 0 25px 50px rgba(0,0,0,0.5);
           }
-          
           .premium-btn:active {
             transform: translateY(-3px) scale(0.98);
           }
-
-          /* Alt kısım butonlar (küçük) */
           .premium-small-btn {
             position: relative;
             font-weight: 600;
@@ -347,7 +341,6 @@ export default function Home() {
             box-shadow: 0 8px 20px rgba(0,0,0,0.3);
             border: 1px solid rgba(255,255,255,0.1);
           }
-          
           .premium-small-btn::before {
             content: '';
             position: absolute;
@@ -358,58 +351,44 @@ export default function Home() {
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
             transition: left 0.5s;
           }
-          
           .premium-small-btn:hover::before {
             left: 100%;
           }
-          
           .premium-small-btn:hover {
             transform: translateY(-4px) scale(1.05);
             box-shadow: 0 15px 30px rgba(0,0,0,0.4);
           }
-          
           .premium-small-btn:active {
             transform: translateY(-2px) scale(0.97);
           }
-          
-          /* Gradient renkler */
           .btn-gradient-blue {
             background: linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%);
             color: white;
           }
-          
           .btn-gradient-blue:hover {
             background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #2563eb 100%);
           }
-          
           .btn-gradient-green {
             background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
             color: white;
           }
-          
           .btn-gradient-green:hover {
             background: linear-gradient(135deg, #34d399 0%, #10b981 50%, #059669 100%);
           }
-          
           .btn-gradient-purple {
             background: linear-gradient(135deg, #a855f7 0%, #9333ea 50%, #7e22ce 100%);
             color: white;
           }
-          
           .btn-gradient-purple:hover {
             background: linear-gradient(135deg, #c084fc 0%, #a855f7 50%, #9333ea 100%);
           }
-          
           .btn-gradient-orange {
             background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #c2410c 100%);
             color: white;
           }
-          
           .btn-gradient-orange:hover {
             background: linear-gradient(135deg, #fb923c 0%, #f97316 50%, #ea580c 100%);
           }
-          
-          /* İçerik stilleri */
           .btn-content {
             position: relative;
             z-index: 1;
@@ -418,7 +397,6 @@ export default function Home() {
             justify-content: center;
             gap: 0.75rem;
           }
-          
           .btn-content-small {
             position: relative;
             z-index: 1;
@@ -428,17 +406,14 @@ export default function Home() {
             justify-content: center;
             gap: 0.25rem;
           }
-          
           .btn-icon {
             font-size: 2rem;
             filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
             transition: transform 0.3s;
           }
-          
           .premium-btn:hover .btn-icon {
             transform: scale(1.1) rotate(5deg);
           }
-          
           @media (max-width: 768px) {
             .premium-btn {
               padding: 1.25rem 1.5rem;
