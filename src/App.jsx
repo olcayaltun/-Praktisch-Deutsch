@@ -8,6 +8,7 @@ import Baglaclar from "./page/Baglaclar";
 import Test from "./page/Test";
 import Gramatik from "./page/Gramatik";
 import Metinler from "./page/Metinler";
+import Sözlük from "./page/Sözlük";
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="/baglaclar" element={<Baglaclar />} />
         <Route path="/gramatik" element={<Gramatik />} />
         <Route path="/metinler" element={<Metinler />} />
+        <Route path="/sözlük" element={<Sözlük />} />
       </Routes>
     </BrowserRouter>
   );

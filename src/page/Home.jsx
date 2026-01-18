@@ -112,11 +112,17 @@ const Home = () => {
                     Metinler
                   </span>
                 </Link>
-
                 <Link
-                  to="/testler"
+                  to="/sözlük"
                   className="premium-btn btn-gradient-yellow col-span-2 md:col-span-1"
                 >
+                  <span className="btn-content">
+                    <span className="btn-icon">📖</span>
+                    Sözlük
+                  </span>
+                </Link>
+
+                <Link to="/testler" className="premium-btn btn-gradient-dark">
                   <span className="btn-content">
                     <span className="btn-icon">🎯</span>
                     Testler
